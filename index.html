@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>弦高计算器</title>
+    <title>弦高和弦高差计算器</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,18 +23,22 @@
             max-width: 400px;
         }
         .calculator input, .calculator button {
-            width: 100%;
+            width: calc(100% - 20px);
             padding: 10px;
             margin: 10px 0;
             border-radius: 5px;
             border: 1px solid #ccc;
             font-size: 16px;
+            margin-left: 10px;
+            margin-right: 10px;
         }
         .calculator button {
             background-color: #007BFF;
             color: white;
             border: none;
             cursor: pointer;
+            margin-left: 10px;
+            margin-right: 10px;
         }
         .calculator button:hover {
             background-color: #0056b3;
@@ -43,6 +47,17 @@
             font-size: 18px;
             margin-top: 10px;
             text-align: center;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 0;
+        }
+        .section {
+            border-top: 1px solid #ccc;
+            margin-top: 20px;
+            padding-top: 20px;
         }
     </style>
 </head>
@@ -52,28 +67,60 @@
     <h2>计算弦高：H</h2>
     <label for="R">R:</label>
     <input type="number" id="R" placeholder="输入 R 的值">
-    
+
     <label for="Phi">Φ (直径):</label>
     <input type="number" id="Phi" placeholder="输入 Φ 的值">
-    
+
     <button onclick="calculateH()">计算 H</button>
-    
     <div class="result" id="result"></div>
+
+    <div class="section">
+        <h2>计算弦高差：A</h2>
+        <label for="R1">R1:</label>
+        <input type="number" id="R1" placeholder="输入 R1 的值">
+
+        <label for="R2">R2:（样板半径）</label>
+        <input type="number" id="R2" placeholder="输入 R2 的值">
+
+        <label for="D">D:</label>
+        <input type="number" id="D" placeholder="输入 D 的值">
+
+        <button onclick="calculateA()">计算 A</button>
+    </div>
+
+    <div class="result" id="result1"></div>
 </div>
 
 <script>
     function calculateH() {
         const R = parseFloat(document.getElementById('R').value);
         const Phi = parseFloat(document.getElementById('Phi').value);
-        
+
         if (isNaN(R) || isNaN(Phi)) {
             document.getElementById('result').innerText = "请输入有效的数字";
             return;
         }
 
         const H = R - Math.sqrt(R * R - (Phi / 2) * (Phi / 2));
-        
+
         document.getElementById('result').innerText = `计算结果 H: ${H.toFixed(6)}`;
+    }
+
+    function calculateA() {
+        const R1 = parseFloat(document.getElementById('R1').value);
+        const R2 = parseFloat(document.getElementById('R2').value);
+        const D = parseFloat(document.getElementById('D').value);
+
+        if (isNaN(R1) || isNaN(R2) || isNaN(D)) {
+            document.getElementById('result').innerText = "请输入有效的数字";
+            return;
+        }
+
+        const term1 = R1 - Math.sqrt(R1 * R1 - (D / 2) * (D / 2));
+        const term2 = R2 - Math.sqrt(R2 * R2 - (D / 2) * (D / 2));
+        const A = term1 - term2;
+
+        document.getElementById('result1').innerText = `计算结果 A: ${A.toFixed(6)}`;
     }
 </script>
 
